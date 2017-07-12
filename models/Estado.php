@@ -31,6 +31,8 @@ class Estado extends \yii\db\ActiveRecord
     {
         return [
             [['id_estado_convenio'], 'required'],
+            ['id_estado_convenio', 'match', 'pattern' => "/^[0-9A-Z]+$/", 'message' => 'Sólo se aceptan letras Mayusculas y números enteros'],
+            [['id_estado_convenio'], 'unique'],
             [['id_estado_convenio'], 'integer'],
             [['nombre_estado_convenio'], 'string', 'max' => 200],
             [['descripcion'], 'string', 'max' => 500],
