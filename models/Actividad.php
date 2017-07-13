@@ -34,13 +34,20 @@ class Actividad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['id_actividad_convenio','id_estado_actividad','id_tipo_actividad','id_responsable_actividad'], 'required'],
             [['id_estado_actividad', 'id_tipo_actividad', 'id_actividad_convenio', 'id_convenio'], 'integer'],
-            [['fecha_inicio', 'fecha_fin'], 'safe'],
-            [['id_actividad_convenio'], 'required'],
+            ['id_actividad_convenio', 'unique'],
+            [['fecha_inicio', 'fecha_fin'], 'date', 'format'=>'yyyy-mm-dd'],
+            ['fecha_fin', 'compare', 'compareAttribute' => 'fecha_inicio', 'operator' => '>'],
             [['id_responsable_actividad'], 'string', 'max' => 20],
+            ['id_responsable_actividad', 'match', 'pattern' => "/^[0-9A-Z]+$/", 'message' => 'SÛlo se aceptan letras Mayusculas y n˙meros enteros'],
             [['nombre_actividad'], 'string', 'max' => 200],
+            [['nombre_actividad'], 'match', 'pattern' => '/^[a-z·ÈÌÛ˙Ò\s]+$/i', 'message' => 'SÛlo se aceptan letras'],
             [['descripcion'], 'string', 'max' => 500],
+            [['descripcion'], 'match', 'pattern' => '/^[a-z·ÈÌÛ˙Ò\s]+$/i', 'message' => 'SÛlo se aceptan letras'],
             [['vigente'], 'string', 'max' => 2],
+            [['vigente'], 'match', 'pattern' => '/^S(i)|N(o)|\s/', 'message' => 'SÛlo se acepta "Si" o "No"'],
+            [['id_convenio'], 'exist', 'skipOnError' => true, 'targetClass' => Convenio::className(), 'targetAttribute' => ['id_convenio' => 'id_convenio']],
         ];
     }
 
