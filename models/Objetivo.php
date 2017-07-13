@@ -28,7 +28,7 @@ class Objetivo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_objetivo_convenio', 'id_convenio'], 'integer'],
+            [['id_objetivo_convenio', 'id_convenio'], 'integer','required'],
             [['texto_objetivo'], 'string', 'max' => 500],
             [['vigente'], 'string', 'max' => 1],
         ];
